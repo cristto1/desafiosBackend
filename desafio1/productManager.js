@@ -5,34 +5,35 @@ class ProductManager {
         }
 
     addProduct(product) {
-        const existingProduct = this.products.find(
-            (p) => p.code === product.code
-        );
+        const { title, category, description, price, thumbnail, code, stock } = product;
 
-    if (existingProduct) {
-            console.error("Product code already exists");
+        if (!title || !category || !description || !price || !thumbnail || !code || !stock) {
+            console.error("Campos incompletos");
             return;
         }
 
-    const { title, description, price, thumbnail, code, stock } = product;
+        const existingProduct = this.products.find(
+            (pro) => pro.code === product.code
+        );
 
-    if (!title || !description || !price || !thumbnail || !code || !stock) {
-        console.error("All fields are required");
-        return;
-    }
+        if (existingProduct) {
+            console.error("Código del producto ya existe");
+            return;
+        }
 
-    const newProduct = {
-        id: this.idCounter,
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock,
-    };
+        const newProduct = {
+            id: this.idCounter,
+            title,
+            category,
+            description,
+            price,
+            thumbnail,
+            code,
+            stock,
+        };
 
-    this.products.push(newProduct);
-    this.idCounter++;
+        this.products.push(newProduct);
+        this.idCounter++;
     }
 
     getProducts() {
@@ -40,15 +41,27 @@ class ProductManager {
     }
 
     getProductById(id) {
-        const product = this.products.find((p) => p.id === id);
+        const product = this.products.find((pro) => pro.id === id);
 
-    if (!product) {
-        console.error("Not found");
-            return;
+        if (!product) {
+            console.error("No se encontró el producto");
+                return;
+        }
+
+        return product;
     }
 
-    return product;
+    getProductByCategory(category) {
+        const product = this.products.find((pro) => pro.category === category);
+
+        if (!product) {
+            console.error("No se encontró el producto");
+                return;
+        }
+
+        return product;
     }
 }
 
 module.exports = ProductManager;
+
